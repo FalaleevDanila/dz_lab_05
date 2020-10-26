@@ -3,6 +3,7 @@
 	  <canvas height='720', width='1520', id='canvas'></canvas>
 	<script>
 	
+		
 		class Point
 		{
 			x = 0.0
@@ -44,8 +45,12 @@
 		{
 			t0 = 0
 			t1 = 1
+		
+		// стартовая точка
 			V0 = new Point()
+		// конечная точка
 			V1 = new Point()
+		// нормаль
 			N = new Point()
 			vec = new Point()
 			e_vec = new Point()
@@ -74,32 +79,26 @@
 										   (temp.y/Math.sqrt(Math.pow(temp.x,2) + Math.pow(temp.y,2))));
 			}
 		}
-
+// скалярное произведение
 		function scal(point1, point2) {
 			return ((point1.x*point2.x) + (point1.y*point2.y));
 		}
-
+// вычитание 
 		function vec_mines(point1 = new Point(),point2 = new Point()) {
 			return new Point((point1.x-point2.x),(point1.y-point2.y))
 		}
-
+// сложение
 		function  add(point1 = new Point(),point2 = new Point()) {
 			return new Point((point1.x+point2.x),(point1.y+point2.y))
 		}
-		/*
-		* Polygon - класс созданный для рисования многоугольника
-		* 
-		* Функции:
-		* - check() - проверяет многоугольник на выпулость
-		* - draw_polygon - функция для рисования полигона
-		* - end_polygon - функция завершения рисования полигона (если надобность нужна)
-		*/
+		
 		class Polygon
 		{
 			begin_point = new Point()
 			last_point = new Point()
 			started = true
 			ended = false
+			// стороны
 			edges = []
 			count_edges = 0;
 
@@ -128,9 +127,8 @@
 					
 				}	
 			}
-			/*
-			* Функция проверки выпуклости многоугольника. Возвращает true, если многоугольник выпуклый, иначе - false
-			*/
+			
+		// проверка на выпуклость
 			check() {
 			
 				let z = ((this.edges[this.count_edges - 1].V1.x - 
@@ -158,7 +156,8 @@
 				}
 				return true;
 			}
-
+		
+		// прорисовка многоугольника
 			draw_polygon(ctx,x,y) {
 				if(!this.ended)
 				{
@@ -204,7 +203,8 @@
 				}
 			
 			}				
-			
+		
+		// завершение построения многоугольника
 			end_polygon(ctx) {
 			
 				if(!this.ended)
@@ -350,11 +350,14 @@
 					temp_point.mult(CurrentLine.t1)
 					
 					let V1 = add(CurrentLine.V0,temp_point);
+					
+					// прорисовка неотсечченных линий
 					ctx.fillStyle="#235174";
 					Draw_Line(ctx,CurrentLine.V0.x,CurrentLine.V0.y, V0.x,V0.y);
 					Draw_Line(ctx,CurrentLine.V1.x,CurrentLine.V1.y, V1.x,V1.y);
 					CurrentLine = new Line(V0,V1);
 					
+					// прорисовка линий внутри многоугольника
 					ctx.fillStyle="#e296ff";
 					Draw_Line(ctx,CurrentLine.V0.x,CurrentLine.V0.y,CurrentLine.V1.x,CurrentLine.V1.y);
 					ctx.fillStyle="#000000";
